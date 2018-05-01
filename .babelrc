@@ -1,0 +1,13 @@
+{
+  "env": {
+    "development": {
+      "presets": ["env", "react", "stage-2"],
+      "plugins": [
+        "babel-plugin-styled-components"
+      ]
+    },
+    "production": {
+      "presets": ["env", "react", "stage-2"]
+    }
+  }
+}
