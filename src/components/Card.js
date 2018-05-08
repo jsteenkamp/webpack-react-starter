@@ -40,7 +40,7 @@ class Card extends React.Component {
                 {posts.map(({ id, views }) => {
                   return (
                     <li key={id}>
-                      ID: {id} ({views})
+                      ID: {id} Views: {views}
                     </li>
                   );
                 })}

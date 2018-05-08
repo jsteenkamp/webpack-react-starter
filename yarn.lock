@@ -431,6 +431,12 @@ apollo-link-http@^1.5.4:
     apollo-link "^1.2.2"
     apollo-link-http-common "^0.2.4"
 
+apollo-link-ws@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/apollo-link-ws/-/apollo-link-ws-1.0.8.tgz#ac1de8f29e92418728479a9a523af9f75b9ccc8b"
+  dependencies:
+    apollo-link "^1.2.2"
+
 apollo-link@^1.0.0, apollo-link@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.2.tgz#54c84199b18ac1af8d63553a68ca389c05217a03"
@@ -7345,7 +7351,7 @@ stylis@^3.0.0, stylis@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-3.5.0.tgz#016fa239663d77f868fef5b67cf201c4b7c701e1"
 
-subscriptions-transport-ws@^0.9.8:
+subscriptions-transport-ws@^0.9.9:
   version "0.9.9"
   resolved "https://registry.yarnpkg.com/subscriptions-transport-ws/-/subscriptions-transport-ws-0.9.9.tgz#8a0bdc4c31df2e90e92901047fd8961deb138acc"
   dependencies:

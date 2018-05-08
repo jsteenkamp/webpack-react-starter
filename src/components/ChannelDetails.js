@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { Query } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import MessageList from 'Components/MessageList';
 import NotFound from 'Components/NotFound';
 
@@ -17,36 +17,73 @@ export const channelDetailsQuery = gql`
   }
 `;
 
-const ChannelDetails = ({match}) => {
+const messagesSubscription = gql`
+  subscription messageAdded($channelId: ID!) {
+    messageAdded(channelId: $channelId) {
+      id
+      text
+    }
+  }
+`;
 
-  const {channelId} = match.params;
-
-  console.log({channelId})
-
-  return (
-    <Query query={channelDetailsQuery} variables={{channelId}}>
-      {({loading, error, data}) => {
-        if (loading) {
-          return <div>Loading...</div>;
+class ChannelDetails extends React.Component {
+  // React 16 use CDM in place of cWM
+  componentDidMount() {
+    this.props.data.subscribeToMore({
+      document: messagesSubscription,
+      variables: {
+        channelId: this.props.match.params.channelId,
+      },
+      updateQuery: (prev, {subscriptionData}) => {
+        if (!subscriptionData.data) {
+          return prev;
         }
-        if (error) {
-          return <div>{error.message}</div>;
+        const newMessage = subscriptionData.data.messageAdded;
+        // don't double add the message
+        if (!prev.channel.messages.find((msg) => msg.id === newMessage.id)) {
+          return Object.assign({}, prev, {
+            channel: Object.assign({}, prev.channel, {
+              messages: [...prev.channel.messages, newMessage],
+            })
+          });
+        } else {
+          return prev;
         }
+      }
+    });
+  }
 
-        const {channel} = data;
-        if (channel === null) {
-          return <NotFound />;
-        }
+  render() {
+    const {
+      data: { loading, error, channel },
+      match,
+    } = this.props;
+    const { channelId } = match.params;
 
-        return (
-          <div>
-            <h3>{channel.name}</h3>
-            <MessageList messages={channel.messages} />
-          </div>
-        );
-      }}
-    </Query>
-  );
-};
+    console.log({ channelId });
 
-export default ChannelDetails;
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+    if (error) {
+      return <div>{error.message}</div>;
+    }
+
+    if (channel === null) {
+      return <NotFound />;
+    }
+
+    return (
+      <div>
+        <h3>{channel.name}</h3>
+        <MessageList messages={channel.messages} />
+      </div>
+    );
+  }
+}
+
+export default graphql(channelDetailsQuery, {
+  options: props => ({
+    variables: { channelId: props.match.params.channelId },
+  }),
+})(ChannelDetails);
