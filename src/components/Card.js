@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import FortuneCookie from 'Components/FortuneCookie';
+import Container from 'Components/Container';
 
 const query = gql`
   {
@@ -31,7 +32,7 @@ class Card extends React.Component {
           const { firstName, lastName, posts } = data.author;
 
           return (
-            <div>
+            <Container>
               <h2>
                 {firstName} {lastName}
               </h2>
@@ -45,14 +46,13 @@ class Card extends React.Component {
                 })}
               </ul>
               <FortuneCookie />
-            </div>
+            </Container>
           );
         }}
       </Query>
     );
   }
 }
-
 
 // example of using a shape for props object
 /*

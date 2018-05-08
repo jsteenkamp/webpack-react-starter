@@ -6,7 +6,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { ApolloLink } from 'apollo-link';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
 /*
 import {
@@ -14,10 +13,9 @@ import {
   addGraphQLSubscriptions,
 } from 'subscriptions-transport-ws';
 */
+
 import Card from 'Components/Card';
-import ChannelList from 'Components/ChannelList';
-import ChannelDetails from 'Components/ChannelDetails';
-import NotFound from 'Components/NotFound';
+import GraphQLApp from 'Components/GraphQLApp';
 
 const GRAPHQL_ENDPOINT_URL = 'http://localhost:3002/graphql';
 
@@ -59,17 +57,8 @@ const client = new ApolloClient({
 const Index = () => {
   return (
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <React.Fragment>
-          <Card />
-          <Link to="/" className="navbar">React + GraphQL Tutorial</Link>
-          <Switch>
-            <Route exact path="/" component={ChannelList}/>
-            <Route path="/channel/:channelId" component={ChannelDetails}/>
-            <Route component={ NotFound }/>
-          </Switch>
-        </React.Fragment>
-      </BrowserRouter>
+      <Card />
+      <GraphQLApp />
     </ApolloProvider>
   );
 };
