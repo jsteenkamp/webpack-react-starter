@@ -27,7 +27,7 @@ const messagesSubscription = gql`
 `;
 
 class ChannelDetails extends React.Component {
-  // React 16 use CDM in place of cWM
+  // React 16 use cDM in place of cWM
   componentDidMount() {
     this.props.data.subscribeToMore({
       document: messagesSubscription,
@@ -59,8 +59,6 @@ class ChannelDetails extends React.Component {
       match,
     } = this.props;
     const { channelId } = match.params;
-
-    console.log({ channelId });
 
     if (loading) {
       return <div>Loading...</div>;
