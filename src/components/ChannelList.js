@@ -1,8 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
+import AddChannel from 'Components/AddChannel';
 
-const channelsListQuery = gql`
+export const channelsListQuery = gql`
   query ChannelsListQuery {
     channels {
       id
@@ -15,27 +17,29 @@ const ChannelList = () => {
   return (
     <React.Fragment>
       <h3>Channel List</h3>
-      <Query query={channelsListQuery}>
+      <Query query={channelsListQuery} pollInterval={5000}>
         {({ loading, error, data }) => {
           if (loading) return <div>Loading...</div>;
           if (error) {
             console.error({ error });
-            return <div style={{ color: 'red' }}>Error</div>;
+            return <div style={{ color: 'red' }}>Error: ChannelList</div>;
           }
 
-          console.log({ data });
+          console.log('channels', data);
+
           const { channels } = data;
 
           return (
-            <ul>
+            <div>
+              <AddChannel />
               {channels.map(({ id, name }) => {
                 return (
-                  <li key={id}>
-                    {id} {name}
-                  </li>
+                  <div key={id}>
+                    <Link to={id < 0 ? `/` : `channel/${id}`}>{id}: {name}</Link>
+                  </div>
                 );
               })}
-            </ul>
+            </div>
           );
         }}
       </Query>

@@ -3,9 +3,15 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const StyleLintPlugin = require('stylelint-webpack-plugin');
 
 module.exports = {
+  output: {
+    path: path.resolve(__dirname, 'dist/build'),
+    publicPath: '/',
+  },
   devServer: {
     port: 3000,
-    contentBase: './public',
+    contentBase: path.resolve(__dirname, 'dist/build'),
+    publicPath: '/',
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -20,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './public/index.html',
+      template: './src/index.html',
       filename: './index.html',
     }),
     new StyleLintPlugin(),
@@ -28,7 +34,6 @@ module.exports = {
   resolve: {
     alias: {
       Components: path.resolve(__dirname, './src/components/'),
-      Types: path.resolve(__dirname, './src/types/'),
     },
   },
 };
